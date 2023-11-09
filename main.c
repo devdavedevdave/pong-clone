@@ -43,8 +43,15 @@ int main(int argc, char *argv[])
     int running = 1;
 
     SDL_Rect paddleLeft = {25, 330, 20, 100};
-    SDL_Rect paddleRight = {735, 330, 20, 100};
+    SDL_Rect paddleRight = {715, 330, 20, 100};
+
     SDL_Rect middleLine = {365, 0, 10, 5};
+
+    SDL_Rect ball = {365, 365, 20, 20};
+    int movingLeft = 1;
+    int movingUp = 1;
+    int velocity = 2;
+
     int paddle_speed = 10;
 
     while (running)
@@ -64,6 +71,46 @@ int main(int argc, char *argv[])
         // Clear the renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        // Ball physics
+        if (ball.y < 0)
+        {
+            movingUp = 0;
+        }
+        else if (ball.y > 740)
+        {
+            movingUp = 1;
+        }
+        else if (ball.y >= paddleLeft.y && (ball.y) <= (paddleLeft.y + paddleLeft.h) && ball.x <= (paddleLeft.x + paddleLeft.w))
+        {
+            movingLeft = 0;
+        }
+        else if (ball.y >= paddleRight.y && (ball.y) <= (paddleRight.y + paddleRight.h) && (ball.x + ball.w) >= (paddleRight.x))
+        {
+            movingLeft = 1;
+        }
+
+        // Changes the moving direction of the ball
+        if (movingUp && movingLeft)
+        {
+            ball.y -= velocity;
+            ball.x -= velocity;
+        }
+        else if (movingUp && !movingLeft)
+        {
+            ball.y -= velocity;
+            ball.x += velocity;
+        }
+        else if (!movingUp && !movingLeft)
+        {
+            ball.y += velocity;
+            ball.x += velocity;
+        }
+        else if (!movingUp && movingLeft)
+        {
+            ball.y += velocity;
+            ball.x -= velocity;
+        }
 
         // Move the paddleLeft up or down based on key presses
         if (state[SDL_SCANCODE_UP])
@@ -88,10 +135,11 @@ int main(int argc, char *argv[])
         // Game logic and render updates go here
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Set draw color to white
-        SDL_RenderFillRect(renderer, &paddleLeft);            // Draw the rectangle
+        SDL_RenderFillRect(renderer, &ball);
+        SDL_RenderFillRect(renderer, &paddleLeft);  // Draw the rectangle
+        SDL_RenderFillRect(renderer, &paddleRight); // Draw the rectangle
 
         int drawLine = 1;
-
         while (drawLine)
         {
             SDL_RenderFillRect(renderer, &middleLine);
@@ -107,6 +155,7 @@ int main(int argc, char *argv[])
         SDL_RenderPresent(renderer);
 
         // Delay to control frame rate
+        middleLine.y = 0;
         SDL_Delay(16); // Approximately 60 frames per second (1000ms/60 ≈ 16ms per frame)
     }
 
