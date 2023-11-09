@@ -63,3 +63,25 @@ int checkCollision(const Ball *ball, const Paddle *paddle)
 // {
 //     movingLeft = 1;
 // }
+
+// // Changes the moving direction of the ball
+// if (movingUp && movingLeft)
+// {
+//     ball.y -= velocity;
+//     ball.x -= velocity;
+// }
+// else if (movingUp && !movingLeft)
+// {
+//     ball.y -= velocity;
+//     ball.x += velocity;
+// }
+// else if (!movingUp && !movingLeft)
+// {
+//     ball.y += velocity;
+//     ball.x += velocity;
+// }
+// else if (!movingUp && movingLeft)
+// {
+//     ball.y += velocity;
+//     ball.x -= velocity;
+// }

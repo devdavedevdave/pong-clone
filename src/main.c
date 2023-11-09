@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "Ball.h"
 
 int main(int argc, char *argv[])
 {
@@ -42,15 +43,17 @@ int main(int argc, char *argv[])
 
     int running = 1;
 
+    SDL_Rect ball = {365, 365, 20, 20};
+    Ball gameBall = {ball, 1, 1, 2};
+
+    int movingLeft = 1;
+    int movingUp = 1;
+    int velocity = 2;
+
     SDL_Rect paddleLeft = {25, 330, 20, 100};
     SDL_Rect paddleRight = {715, 330, 20, 100};
 
     SDL_Rect middleLine = {365, 0, 10, 5};
-
-    SDL_Rect ball = {365, 365, 20, 20};
-    int movingLeft = 1;
-    int movingUp = 1;
-    int velocity = 2;
 
     int paddle_speed = 10;
 
@@ -72,72 +75,9 @@ int main(int argc, char *argv[])
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // Ball physics
-        if (ball.y < 0)
-        {
-            movingUp = 0;
-        }
-        else if (ball.y > 740)
-        {
-            movingUp = 1;
-        }
-        else if (ball.y >= paddleLeft.y && (ball.y) <= (paddleLeft.y + paddleLeft.h) && ball.x <= (paddleLeft.x + paddleLeft.w))
-        {
-            movingLeft = 0;
-        }
-        else if (ball.y >= paddleRight.y && (ball.y) <= (paddleRight.y + paddleRight.h) && (ball.x + ball.w) >= (paddleRight.x))
-        {
-            movingLeft = 1;
-        }
-
-        // Changes the moving direction of the ball
-        if (movingUp && movingLeft)
-        {
-            ball.y -= velocity;
-            ball.x -= velocity;
-        }
-        else if (movingUp && !movingLeft)
-        {
-            ball.y -= velocity;
-            ball.x += velocity;
-        }
-        else if (!movingUp && !movingLeft)
-        {
-            ball.y += velocity;
-            ball.x += velocity;
-        }
-        else if (!movingUp && movingLeft)
-        {
-            ball.y += velocity;
-            ball.x -= velocity;
-        }
-
-        // Move the paddleLeft up or down based on key presses
-        if (state[SDL_SCANCODE_UP])
-        {
-            paddleLeft.y -= paddle_speed;
-        }
-        if (state[SDL_SCANCODE_DOWN])
-        {
-            paddleLeft.y += paddle_speed;
-        }
-
-        // Make sure the paddleLeft doesn't move out of the window
-        if (paddleLeft.y < 0)
-        {
-            paddleLeft.y = 0;
-        }
-        else if (paddleLeft.y > (760 - paddleLeft.h))
-        {
-            paddleLeft.y = 760 - paddleLeft.h;
-        }
-
         // Game logic and render updates go here
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Set draw color to white
-        SDL_RenderFillRect(renderer, &ball);
-        SDL_RenderFillRect(renderer, &paddleLeft);  // Draw the rectangle
-        SDL_RenderFillRect(renderer, &paddleRight); // Draw the rectangle
 
         int drawLine = 1;
         while (drawLine)
