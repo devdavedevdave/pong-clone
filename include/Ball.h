@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include <SDL.h>
+#include "Paddle.h"
 
 typedef struct
 {
@@ -11,9 +12,9 @@ typedef struct
     int velocity;
 } Ball;
 
-void setMovingUp(Ball *ball, int value);
+void toggleMovingUp(Ball *ball);
 
-void setMovingLeft(Ball *ball, int value);
+void toggleMovingLeft(Ball *ball);
 
 void setVelocity(Ball *ball, int value);
 
@@ -23,6 +24,8 @@ int getMovingLeft(const Ball *ball);
 
 int getVelocity(const Ball *ball);
 
-int checkCollision(const Ball *ball);
+void handleWallCollision(const Ball *ball, const Paddle *paddle);
+
+void checkPaddleCollision(const Ball *ball, const Paddle *paddle);
 
 #endif // BALL_H

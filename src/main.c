@@ -79,6 +79,8 @@ int main(int argc, char *argv[])
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Set draw color to white
 
+        SDL_RenderFillRect(renderer, &ball);
+
         int drawLine = 1;
         while (drawLine)
         {

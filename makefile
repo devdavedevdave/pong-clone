@@ -22,13 +22,13 @@ MAIN=main
 .PHONY: clean
 
 all: $(MAIN)
-    @echo Simple compiler named mycc has been compiled
+	@echo Simple compiler named mycc has been compiled
 
 $(MAIN): $(OBJECTS) 
-    $(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJECTS) $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJECTS) $(LIBS)
 
 .c.o:
-    $(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
 
 clean:
-    $(RM) src/*.o *~ $(MAIN)
+	$(RM) src/*.o *~ $(MAIN)

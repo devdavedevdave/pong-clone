@@ -1,13 +1,15 @@
+#include <SDL.h>
 #include "Ball.h"
+#include "Paddle.h"
 
-void setMovingUp(Ball *ball, int value)
+void toggleMovingUp(Ball *ball)
 {
-    ball->movingUp = value;
+    ball->movingUp = !ball->movingUp;
 }
 
-void setMovingLeft(Ball *ball, int value)
+void toggleMovingLeft(Ball *ball)
 {
-    ball->movingLeft = value;
+    ball->movingLeft = !ball->movingLeft;
 }
 
 void setVelocity(Ball *ball, int value)
@@ -15,35 +17,49 @@ void setVelocity(Ball *ball, int value)
     ball->velocity = value;
 }
 
-int getMovingUp(Ball *ball)
+int getMovingUp(const Ball *ball)
 {
     return ball->movingUp;
 }
 
-int getMovingLeft(Ball *ball)
+int getMovingLeft(const Ball *ball)
 {
     return ball->movingLeft;
 }
 
-int getVelocity(Ball *ball)
+int getVelocity(const Ball *ball)
 {
     return ball->velocity;
 }
 
 // TODO: Make this 740 into a understandable code. Image width is supposed to be dynamic
-int checkCollision(const Ball *ball, const Paddle *paddle)
+// Use macros for the conditions in the if and else
+void handleWallCollision(const Ball *ball, const Paddle *paddle)
 {
-    struct *rectBall = ball->ball;
-    struct *rectPaddle = paddle->paddle;
+    SDL_Rect *rectBall = &(ball->ball);
+    SDL_Rect *rectPaddle = &(paddle->paddle);
 
-    if (rectBall.y < 0)
+    if (rectBall->x <= 0 || rectBall->x >= 740)
     {
-        setMovingUp(ball, 0);
+        goal(ball);
     }
-    else if (rectBall.y > 740)
+    else if (rectBall->y <= 0 || rectBall->y >= 740)
     {
-        setMovingUp(ball, 1);
+        toggleMovingUp(ball);
     }
+}
+
+void handlePaddleCollision(const Ball *ball, const Paddle *paddle)
+{
+    SDL_Rect *rectBall = &(ball->ball);
+    SDL_Rect *rectPaddle = &(paddle->paddle);
+
+    int paddleYUpperLimit = rectPaddle->y;
+    int paddleYLowerLimit = rectPaddle->y + rectPaddle->h;
+    int paddleXLimit = rectPaddle->x >= 370 ? rectPaddle->x + 20 : rectPaddle->x;
+    int ballYUpperLimit = rectBall->x;
+    int ballYLowerLimit = rectBall->x + rectBall->h;
+    int ballXLimit = rectBall->x >= 370 ? rectBall->x + 20 : rectBall->x;
 }
 
 // // Ball physics

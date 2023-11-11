@@ -3,10 +3,10 @@
 
 #include <SDL.h>
 
-struct Paddle
+typedef struct
 {
     SDL_Rect paddle;
     int velocity;
-};
+} Paddle;
 
 #endif // PADDLE_H
