@@ -24,8 +24,12 @@ int getMovingLeft(const Ball *ball);
 
 int getVelocity(const Ball *ball);
 
-void handleWallCollision(const Ball *ball, const Paddle *paddle);
+void handleWallCollision(const Ball *ball);
 
-void checkPaddleCollision(const Ball *ball, const Paddle *paddle);
+void handlePaddleCollision(const Ball *ball, const Paddle *paddle);
+
+void handleCollision(const Ball *ball, const Paddle *paddle);
+
+void setDirections(Ball *ball);
 
 #endif // BALL_H

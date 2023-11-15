@@ -34,14 +34,16 @@ int getVelocity(const Ball *ball)
 
 // TODO: Make this 740 into a understandable code. Image width is supposed to be dynamic
 // Use macros for the conditions in the if and else
-void handleWallCollision(const Ball *ball, const Paddle *paddle)
+
+// TODO: Implement goal() function
+void handleWallCollision(const Ball *ball)
 {
     SDL_Rect *rectBall = &(ball->ball);
-    SDL_Rect *rectPaddle = &(paddle->paddle);
 
     if (rectBall->x <= 0 || rectBall->x >= 740)
     {
-        goal(ball);
+        // goal(ball);
+        toggleMovingLeft(ball);
     }
     else if (rectBall->y <= 0 || rectBall->y >= 740)
     {
@@ -54,50 +56,31 @@ void handlePaddleCollision(const Ball *ball, const Paddle *paddle)
     SDL_Rect *rectBall = &(ball->ball);
     SDL_Rect *rectPaddle = &(paddle->paddle);
 
+    // TODO: Try to do it with pointer, since it's repeting itself
     int paddleYUpperLimit = rectPaddle->y;
     int paddleYLowerLimit = rectPaddle->y + rectPaddle->h;
     int paddleXLimit = rectPaddle->x >= 370 ? rectPaddle->x + 20 : rectPaddle->x;
-    int ballYUpperLimit = rectBall->x;
-    int ballYLowerLimit = rectBall->x + rectBall->h;
+    int ballYUpperLimit = rectBall->y;
+    int ballYLowerLimit = rectBall->y + rectBall->h;
     int ballXLimit = rectBall->x >= 370 ? rectBall->x + 20 : rectBall->x;
+
+    if (ballYUpperLimit >= paddleYUpperLimit && ballYUpperLimit <= paddleYLowerLimit && ballXLimit <= paddleXLimit)
+    {
+        toggleMovingLeft(ball);
+    }
 }
 
-// // Ball physics
-// if (ball.y < 0)
-// {
-//     movingUp = 0;
-// }
-// else if (ball.y > 740)
-// {
-//     movingUp = 1;
-// }
-// else if (ball.y >= paddleLeft.y && (ball.y) <= (paddleLeft.y + paddleLeft.h) && ball.x <= (paddleLeft.x + paddleLeft.w))
-// {
-//     movingLeft = 0;
-// }
-// else if (ball.y >= paddleRight.y && (ball.y) <= (paddleRight.y + paddleRight.h) && (ball.x + ball.w) >= (paddleRight.x))
-// {
-//     movingLeft = 1;
-// }
+void handleCollision(const Ball *ball, const Paddle *paddle)
+{
+    handleWallCollision(ball);
+    handlePaddleCollision(ball, paddle);
+}
 
-// // Changes the moving direction of the ball
-// if (movingUp && movingLeft)
-// {
-//     ball.y -= velocity;
-//     ball.x -= velocity;
-// }
-// else if (movingUp && !movingLeft)
-// {
-//     ball.y -= velocity;
-//     ball.x += velocity;
-// }
-// else if (!movingUp && !movingLeft)
-// {
-//     ball.y += velocity;
-//     ball.x += velocity;
-// }
-// else if (!movingUp && movingLeft)
-// {
-//     ball.y += velocity;
-//     ball.x -= velocity;
-// }
+void setDirections(Ball *ball)
+{
+    SDL_Rect *rectBall = &(ball->ball);
+    int velocity = ball->velocity;
+
+    rectBall->y += getMovingUp(ball) ? -velocity : velocity;
+    rectBall->x += getMovingLeft(ball) ? -velocity : velocity;
+}

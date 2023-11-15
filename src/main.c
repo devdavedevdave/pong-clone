@@ -46,16 +46,7 @@ int main(int argc, char *argv[])
     SDL_Rect ball = {365, 365, 20, 20};
     Ball gameBall = {ball, 1, 1, 2};
 
-    int movingLeft = 1;
-    int movingUp = 1;
-    int velocity = 2;
-
-    SDL_Rect paddleLeft = {25, 330, 20, 100};
-    SDL_Rect paddleRight = {715, 330, 20, 100};
-
     SDL_Rect middleLine = {365, 0, 10, 5};
-
-    int paddle_speed = 10;
 
     while (running)
     {
@@ -78,6 +69,9 @@ int main(int argc, char *argv[])
         // Game logic and render updates go here
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Set draw color to white
+
+        handleCollision(gameBall, paddle);
+        setDirections(gameBall);
 
         SDL_RenderFillRect(renderer, &ball);
 
