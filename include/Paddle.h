@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    SDL_Rect paddle;
+    SDL_Rect *paddle;
     int velocity;
 } Paddle;
 

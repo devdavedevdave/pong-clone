@@ -6,7 +6,7 @@
 
 typedef struct
 {
-    SDL_Rect ball;
+    SDL_Rect *ball;
     int movingUp;
     int movingLeft;
     int velocity;
@@ -24,11 +24,11 @@ int getMovingLeft(const Ball *ball);
 
 int getVelocity(const Ball *ball);
 
-void handleWallCollision(const Ball *ball);
+void handleWallCollision(Ball *ball);
 
-void handlePaddleCollision(const Ball *ball, const Paddle *paddle);
+void handlePaddleCollision(Ball *ball, Paddle *paddle);
 
-void handleCollision(const Ball *ball, const Paddle *paddle);
+void handleCollision(Ball *ball, Paddle *paddle);
 
 void setDirections(Ball *ball);
 

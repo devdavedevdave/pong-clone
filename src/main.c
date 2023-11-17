@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "Ball.h"
+#include "Paddle.h"
 
 int main(int argc, char *argv[])
 {
@@ -44,7 +45,10 @@ int main(int argc, char *argv[])
     int running = 1;
 
     SDL_Rect ball = {365, 365, 20, 20};
-    Ball gameBall = {ball, 1, 1, 2};
+    Ball gameBall = {&ball, 1, 1, 2};
+
+    SDL_Rect paddle = {365, 365, 20, 20};
+    Paddle gamePaddle = {&paddle, 2};
 
     SDL_Rect middleLine = {365, 0, 10, 5};
 
@@ -70,8 +74,8 @@ int main(int argc, char *argv[])
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Set draw color to white
 
-        handleCollision(gameBall, paddle);
-        setDirections(gameBall);
+        handleCollision(&gameBall, &gamePaddle);
+        setDirections(&gameBall);
 
         SDL_RenderFillRect(renderer, &ball);
 

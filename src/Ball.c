@@ -36,32 +36,36 @@ int getVelocity(const Ball *ball)
 // Use macros for the conditions in the if and else
 
 // TODO: Implement goal() function
-void handleWallCollision(const Ball *ball)
+void handleWallCollision(Ball *ball)
 {
-    SDL_Rect *rectBall = &(ball->ball);
+    SDL_Rect *rectBall = ball->ball;
 
     if (rectBall->x <= 0 || rectBall->x >= 740)
     {
         // goal(ball);
         toggleMovingLeft(ball);
+
+        rectBall->x = rectBall->x <= 0 ? 0 : 740;
     }
-    else if (rectBall->y <= 0 || rectBall->y >= 740)
+    else if (rectBall->y <= 0 || rectBall->y >= 740)
     {
         toggleMovingUp(ball);
+
+        rectBall->y = rectBall->y <= 0 ? 0 : 740; // screenWidth - rectBall.h;
     }
 }
 
-void handlePaddleCollision(const Ball *ball, const Paddle *paddle)
+void handlePaddleCollision(Ball *ball, Paddle *paddle)
 {
-    SDL_Rect *rectBall = &(ball->ball);
-    SDL_Rect *rectPaddle = &(paddle->paddle);
+    SDL_Rect *rectBall = ball->ball;
+    const SDL_Rect *rectPaddle = paddle->paddle;
 
     // TODO: Try to do it with pointer, since it's repeting itself
     int paddleYUpperLimit = rectPaddle->y;
     int paddleYLowerLimit = rectPaddle->y + rectPaddle->h;
     int paddleXLimit = rectPaddle->x >= 370 ? rectPaddle->x + 20 : rectPaddle->x;
     int ballYUpperLimit = rectBall->y;
-    int ballYLowerLimit = rectBall->y + rectBall->h;
+    // int ballYLowerLimit = rectBall->y + rectBall->h; // CHECK: Is this needed?
     int ballXLimit = rectBall->x >= 370 ? rectBall->x + 20 : rectBall->x;
 
     if (ballYUpperLimit >= paddleYUpperLimit && ballYUpperLimit <= paddleYLowerLimit && ballXLimit <= paddleXLimit)
@@ -70,15 +74,16 @@ void handlePaddleCollision(const Ball *ball, const Paddle *paddle)
     }
 }
 
-void handleCollision(const Ball *ball, const Paddle *paddle)
+void handleCollision(Ball *ball, Paddle *paddle)
 {
     handleWallCollision(ball);
-    handlePaddleCollision(ball, paddle);
+    // handlePaddleCollision(ball, paddle);
 }
 
+// TODO: velocity
 void setDirections(Ball *ball)
 {
-    SDL_Rect *rectBall = &(ball->ball);
+    SDL_Rect *rectBall = ball->ball;
     int velocity = ball->velocity;
 
     rectBall->y += getMovingUp(ball) ? -velocity : velocity;
