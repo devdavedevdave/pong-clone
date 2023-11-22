@@ -1,5 +1,6 @@
 typedef struct
 {
+    char *name;
     int points;
 } Player;
 

@@ -12,24 +12,24 @@ typedef struct
     int velocity;
 } Ball;
 
-void toggleMovingUp(Ball *ball);
+void Ball_toggleMovingUp(Ball *ball);
 
-void toggleMovingLeft(Ball *ball);
+void Ball_toggleMovingLeft(Ball *ball);
 
-void setVelocity(Ball *ball, int value);
+void Ball_setVelocity(Ball *ball, int value);
 
-int getMovingUp(const Ball *ball);
+int Ball_getMovingUp(const Ball *ball);
 
-int getMovingLeft(const Ball *ball);
+int Ball_getMovingLeft(const Ball *ball);
 
-int getVelocity(const Ball *ball);
+int Ball_getVelocity(const Ball *ball);
+
+void Ball_setDirections(Ball *ball);
 
 void handleWallCollision(Ball *ball);
 
 void handlePaddleCollision(Ball *ball, Paddle *paddle);
 
 void handleCollision(Ball *ball, Paddle *paddle);
-
-void setDirections(Ball *ball);
 
 #endif // BALL_H

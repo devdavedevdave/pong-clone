@@ -2,34 +2,44 @@
 #include "Ball.h"
 #include "Paddle.h"
 
-void toggleMovingUp(Ball *ball)
+void Ball_toggleMovingUp(Ball *ball)
 {
     ball->movingUp = !ball->movingUp;
 }
 
-void toggleMovingLeft(Ball *ball)
+void Ball_toggleMovingLeft(Ball *ball)
 {
     ball->movingLeft = !ball->movingLeft;
 }
 
-void setVelocity(Ball *ball, int value)
+void Ball_setVelocity(Ball *ball, int value)
 {
     ball->velocity = value;
 }
 
-int getMovingUp(const Ball *ball)
+int Ball_getMovingUp(const Ball *ball)
 {
     return ball->movingUp;
 }
 
-int getMovingLeft(const Ball *ball)
+int Ball_getMovingLeft(const Ball *ball)
 {
     return ball->movingLeft;
 }
 
-int getVelocity(const Ball *ball)
+int Ball_getVelocity(const Ball *ball)
 {
     return ball->velocity;
+}
+
+// TODO: velocity
+void Ball_setDirections(Ball *ball)
+{
+    SDL_Rect *rectBall = ball->ball;
+    int velocity = ball->velocity;
+
+    rectBall->y += Ball_getMovingUp(ball) ? -velocity : velocity;
+    rectBall->x += Ball_getMovingLeft(ball) ? -velocity : velocity;
 }
 
 // TODO: Make this 740 into a understandable code. Image width is supposed to be dynamic
@@ -43,13 +53,13 @@ void handleWallCollision(Ball *ball)
     if (rectBall->x <= 0 || rectBall->x >= 740)
     {
         // goal(ball);
-        toggleMovingLeft(ball);
+        Ball_toggleMovingLeft(ball);
 
         rectBall->x = rectBall->x <= 0 ? 0 : 740;
     }
     else if (rectBall->y <= 0 || rectBall->y >= 740)
     {
-        toggleMovingUp(ball);
+        Ball_toggleMovingUp(ball);
 
         rectBall->y = rectBall->y <= 0 ? 0 : 740; // screenWidth - rectBall.h;
     }
@@ -70,7 +80,7 @@ void handlePaddleCollision(Ball *ball, Paddle *paddle)
 
     if (ballYUpperLimit >= paddleYUpperLimit && ballYUpperLimit <= paddleYLowerLimit && ballXLimit <= paddleXLimit)
     {
-        toggleMovingLeft(ball);
+        Ball_toggleMovingLeft(ball);
     }
 }
 
@@ -78,14 +88,4 @@ void handleCollision(Ball *ball, Paddle *paddle)
 {
     handleWallCollision(ball);
     // handlePaddleCollision(ball, paddle);
-}
-
-// TODO: velocity
-void setDirections(Ball *ball)
-{
-    SDL_Rect *rectBall = ball->ball;
-    int velocity = ball->velocity;
-
-    rectBall->y += getMovingUp(ball) ? -velocity : velocity;
-    rectBall->x += getMovingLeft(ball) ? -velocity : velocity;
 }
