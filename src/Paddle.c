@@ -12,12 +12,8 @@ void Paddle_setMovingUp(Paddle *paddle, int value) { paddle->movingUp = value; }
 
 void Paddle_setVelocity(Paddle *paddle, int value) { paddle->velocity = value; }
 
-// LOGIC
-void Paddle_setPaddleMovement(Paddle *paddle)
+void Paddle_setDirections(Paddle *paddle)
 {
-    const int SCREEN_TOP = 0;
-    const int SCREEN_BOTTOM = SCREEN_HEIGHT;
-
     SDL_Rect *rectPaddle = paddle->paddle;
     int moveDirection = Paddle_getMovingUp(paddle);
 
@@ -26,6 +22,7 @@ void Paddle_setPaddleMovement(Paddle *paddle)
         rectPaddle->y = clamp(rectPaddle->y + moveDirection * Paddle_getVelocity(paddle), SCREEN_TOP, SCREEN_BOTTOM - rectPaddle->h);
 }
 
+// LOGIC
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state)
 {
     int moveDirection = (state[SDL_SCANCODE_UP] ? -1 : (state[SDL_SCANCODE_DOWN] ? 1 : 0));

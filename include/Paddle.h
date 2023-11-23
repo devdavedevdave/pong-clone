@@ -20,9 +20,9 @@ void Paddle_setMovingUp(Paddle *paddle, int value);
 
 void Paddle_setVelocity(Paddle *paddle, int value);
 
-// LOGIC
-void Paddle_setPaddleMovement(Paddle *paddle);
+void Paddle_setDirections(Paddle *paddle);
 
+// LOGIC
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state);
 
 #endif // PADDLE_H

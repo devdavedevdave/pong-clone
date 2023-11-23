@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         Ball_setDirections(&pBall);
 
         Paddle_handlePaddlePosition(&pPaddle, state);
-        Paddle_setPaddleMovement(&pPaddle);
+        Paddle_setDirections(&pPaddle);
 
         SDL_RenderFillRect(renderer->renderer, &ball);
         SDL_RenderFillRect(renderer->renderer, &paddle);

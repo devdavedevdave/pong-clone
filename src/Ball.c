@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
+#include "Utils.h"
 
 // GETTERS
 int Ball_getMovingUp(const Ball *ball) { return ball->movingUp; }
@@ -28,27 +29,22 @@ void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
 void Ball_toggleMovingLeft(Ball *ball) { ball->movingLeft = !ball->movingLeft; }
 
 // LOGIC
-
-// TODO: Make this 740 into a understandable code. Image width is supposed to be dynamic
-// Use macros for the conditions in the if and else
-
-// TODO: Implement goal() function
 void handleWallCollision(Ball *ball)
 {
     SDL_Rect *rectBall = ball->ball;
 
-    if (rectBall->x <= 0 || rectBall->x >= 740)
+    if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
         // goal(ball);
         Ball_toggleMovingLeft(ball);
 
-        rectBall->x = rectBall->x <= 0 ? 0 : 740;
+        rectBall->x = clamp(rectBall->x, 0, SCREEN_WIDTH - rectBall->w);
     }
-    else if (rectBall->y <= 0 || rectBall->y >= 740)
+    else if (rectBall->y <= 0 || rectBall->y >= SCREEN_BOTTOM - rectBall->h)
     {
         Ball_toggleMovingUp(ball);
 
-        rectBall->y = rectBall->y <= 0 ? 0 : 740; // screenWidth - rectBall.h;
+        rectBall->y = clamp(rectBall->y, 0, SCREEN_HEIGHT - rectBall->y);
     }
 }
 
