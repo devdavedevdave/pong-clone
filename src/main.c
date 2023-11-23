@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
 #include "Renderer.h"
@@ -42,12 +43,8 @@ int main(int argc, char *argv[])
         handleCollision(&pBall, &pPaddle);
         Ball_setDirections(&pBall);
 
-        printf("The number is: %d\n", pPaddle.paddle->y);
-
         Paddle_handlePaddlePosition(&pPaddle, state);
         Paddle_setPaddleMovement(&pPaddle);
-
-        printf("The number is: %d\n", pPaddle.paddle->y);
 
         SDL_RenderFillRect(renderer->renderer, &ball);
         SDL_RenderFillRect(renderer->renderer, &paddle);
@@ -58,7 +55,7 @@ int main(int argc, char *argv[])
             SDL_RenderFillRect(renderer->renderer, &middleLine);
             middleLine.y += 10;
 
-            if (middleLine.y > 760 - middleLine.h)
+            if (middleLine.y > SCREEN_HEIGHT - middleLine.h)
             {
                 drawLine = 0;
             }

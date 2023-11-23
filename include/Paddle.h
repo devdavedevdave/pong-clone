@@ -10,12 +10,17 @@ typedef struct
     int velocity;
 } Paddle;
 
+// GETTER
+int Paddle_getMovingUp(const Paddle *paddle);
+
+int Paddle_getVelocity(const Paddle *paddle);
+
+// SETTER
 void Paddle_setMovingUp(Paddle *paddle, int value);
 
-int Paddle_getMovingUp(Paddle *paddle);
+void Paddle_setVelocity(Paddle *paddle, int value);
 
-int Paddle_getVelocity(Paddle *paddle);
-
+// LOGIC
 void Paddle_setPaddleMovement(Paddle *paddle);
 
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state);

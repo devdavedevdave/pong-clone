@@ -1,54 +1,34 @@
+#include "Game.h"
+#include "Utils.h"
 #include "Paddle.h"
 
-void Paddle_setMovingUp(Paddle *paddle, int value)
-{
-    paddle->movingUp = value;
-}
+// GETTER
+int Paddle_getMovingUp(const Paddle *paddle) { return paddle->movingUp; }
 
-int Paddle_getMovingUp(Paddle *paddle)
-{
-    return paddle->movingUp;
-}
+int Paddle_getVelocity(const Paddle *paddle) { return paddle->velocity; }
 
-int Paddle_getVelocity(Paddle *paddle)
-{
-    return paddle->velocity;
-}
+// SETTER
+void Paddle_setMovingUp(Paddle *paddle, int value) { paddle->movingUp = value; }
 
+void Paddle_setVelocity(Paddle *paddle, int value) { paddle->velocity = value; }
+
+// LOGIC
 void Paddle_setPaddleMovement(Paddle *paddle)
 {
+    const int SCREEN_TOP = 0;
+    const int SCREEN_BOTTOM = SCREEN_HEIGHT;
+
     SDL_Rect *rectPaddle = paddle->paddle;
     int moveDirection = Paddle_getMovingUp(paddle);
 
+    // Move paddle and ensure staying in screen with clamp
     if (moveDirection != 0)
-    {
-        rectPaddle->y += moveDirection * Paddle_getVelocity(paddle);
-        printf("%d", rectPaddle->y);
-    }
+        rectPaddle->y = clamp(rectPaddle->y + moveDirection * Paddle_getVelocity(paddle), SCREEN_TOP, SCREEN_BOTTOM - rectPaddle->h);
 }
 
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state)
 {
-    if (state[SDL_SCANCODE_UP])
-    {
-        Paddle_setMovingUp(paddle, 1);
-    }
-    else if (state[SDL_SCANCODE_DOWN])
-    {
-        Paddle_setMovingUp(paddle, -1);
-    }
-    else
-    {
-        Paddle_setMovingUp(paddle, 0);
-    }
-}
+    int moveDirection = (state[SDL_SCANCODE_UP] ? -1 : (state[SDL_SCANCODE_DOWN] ? 1 : 0));
 
-// // Make sure the paddleLeft doesn't move out of the window
-// if (paddleLeft.y < 0)
-// {
-//     paddleLeft.y = 0;
-// }
-// else if (paddleLeft.y > (760 - paddleLeft.h))
-// {
-//     paddleLeft.y = 760 - paddleLeft.h;
-// }
+    Paddle_setMovingUp(paddle, moveDirection);
+}

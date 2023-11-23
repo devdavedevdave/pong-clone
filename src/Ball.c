@@ -1,46 +1,33 @@
 #include <SDL.h>
+#include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
 
-void Ball_toggleMovingUp(Ball *ball)
-{
-    ball->movingUp = !ball->movingUp;
-}
+// GETTERS
+int Ball_getMovingUp(const Ball *ball) { return ball->movingUp; }
 
-void Ball_toggleMovingLeft(Ball *ball)
-{
-    ball->movingLeft = !ball->movingLeft;
-}
+int Ball_getMovingLeft(const Ball *ball) { return ball->movingLeft; }
 
-void Ball_setVelocity(Ball *ball, int value)
-{
-    ball->velocity = value;
-}
+int Ball_getVelocity(const Ball *ball) { return ball->velocity; }
 
-int Ball_getMovingUp(const Ball *ball)
-{
-    return ball->movingUp;
-}
+// SETTERS
+void Ball_setVelocity(Ball *ball, int value) { ball->velocity = value; }
 
-int Ball_getMovingLeft(const Ball *ball)
-{
-    return ball->movingLeft;
-}
-
-int Ball_getVelocity(const Ball *ball)
-{
-    return ball->velocity;
-}
-
-// TODO: velocity
 void Ball_setDirections(Ball *ball)
 {
     SDL_Rect *rectBall = ball->ball;
-    int velocity = ball->velocity;
+    int velocity = Ball_getVelocity(ball);
 
     rectBall->y += Ball_getMovingUp(ball) ? -velocity : velocity;
     rectBall->x += Ball_getMovingLeft(ball) ? -velocity : velocity;
 }
+
+// TOGGLERS
+void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
+
+void Ball_toggleMovingLeft(Ball *ball) { ball->movingLeft = !ball->movingLeft; }
+
+// LOGIC
 
 // TODO: Make this 740 into a understandable code. Image width is supposed to be dynamic
 // Use macros for the conditions in the if and else
