@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     Ball pBall = {&ball, 1, 1, 2};
 
     SDL_Rect paddle = {20, 315, 20, 100};
-    Paddle pPaddle = {&paddle, 2};
+    Paddle pPaddle = {&paddle, 0, 20};
 
     SDL_Rect middleLine = {365, 0, 10, 5};
 
@@ -42,8 +42,12 @@ int main(int argc, char *argv[])
         handleCollision(&pBall, &pPaddle);
         Ball_setDirections(&pBall);
 
+        printf("The number is: %d\n", pPaddle.paddle->y);
+
         Paddle_handlePaddlePosition(&pPaddle, state);
         Paddle_setPaddleMovement(&pPaddle);
+
+        printf("The number is: %d\n", pPaddle.paddle->y);
 
         SDL_RenderFillRect(renderer->renderer, &ball);
         SDL_RenderFillRect(renderer->renderer, &paddle);

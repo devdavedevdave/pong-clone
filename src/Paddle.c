@@ -18,8 +18,13 @@ int Paddle_getVelocity(Paddle *paddle)
 void Paddle_setPaddleMovement(Paddle *paddle)
 {
     SDL_Rect *rectPaddle = paddle->paddle;
+    int moveDirection = Paddle_getMovingUp(paddle);
 
-    rectPaddle->y += Paddle_getMovingUp(paddle) ? -Paddle_getVelocity(paddle) : Paddle_getVelocity(paddle);
+    if (moveDirection != 0)
+    {
+        rectPaddle->y += moveDirection * Paddle_getVelocity(paddle);
+        printf("%d", rectPaddle->y);
+    }
 }
 
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state)
@@ -29,6 +34,10 @@ void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state)
         Paddle_setMovingUp(paddle, 1);
     }
     else if (state[SDL_SCANCODE_DOWN])
+    {
+        Paddle_setMovingUp(paddle, -1);
+    }
+    else
     {
         Paddle_setMovingUp(paddle, 0);
     }
