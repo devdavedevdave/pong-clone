@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "Utils.h"
+#include "Ball.h"
 
 Borders evaluateRectBorder(SDL_Rect *rect)
 {
@@ -10,6 +11,18 @@ Borders evaluateRectBorder(SDL_Rect *rect)
     borders.right = rect->x + rect->w;
 
     return borders;
+}
+
+int isColliding(Borders *a, Borders *b, CollisionType type)
+{
+    if (type == COLLIDE_LEFT)
+    {
+        return a->left <= b->right && a->bottom >= b->top && a->top <= b->bottom;
+    }
+    else
+    {
+        return a->right >= b->left && a->bottom >= b->top && a->top <= b->bottom;
+    }
 }
 
 int clamp(const int value, const int min, const int max)

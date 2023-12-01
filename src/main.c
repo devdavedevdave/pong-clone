@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     int running = 1;
 
     SDL_Rect ball = {365, 365, 20, 20};
-    Ball pBall = {&ball, 1, 1, 2, 0};
+    Ball pBall = {&ball, 1, 1, 3, 0};
 
     SDL_Rect paddleLeft = {20, 315, 20, 100};
     Paddle pPaddleLeft = {&paddleLeft, 0, 20};

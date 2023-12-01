@@ -58,25 +58,24 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
 
     if (!ball->isInCollision)
     {
-        // Managing collision for left paddle
-        if (ballBorders.left <= leftPaddleBorders.right && ballBorders.bottom >= leftPaddleBorders.top && ballBorders.top <= leftPaddleBorders.bottom)
+        // Check collision with left paddle
+        if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT))
         {
             printf("left\n");
             Ball_toggleMovingLeft(ball);
             ball->isInCollision = 1;
         }
-
-        // Managing collision for right paddle
-        if (ballBorders.right >= rightPaddleBorders.left && ballBorders.bottom >= rightPaddleBorders.top && ballBorders.bottom <= rightPaddleBorders.bottom)
+        // Check collision with right paddle
+        else if (isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
         {
             printf("right\n");
             Ball_toggleMovingLeft(ball);
             ball->isInCollision = 1;
         }
     }
-    else if (ballBorders.left > leftPaddleBorders.right || ballBorders.top < leftPaddleBorders.top || ballBorders.bottom > leftPaddleBorders.bottom)
+    else if (!isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) && !isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
     {
-        printf("collision\n");
+        printf("collision ended\n");
         ball->isInCollision = 0;
     }
 }

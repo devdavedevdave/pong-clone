@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <SDL.h>
+#include "Ball.h"
 
 typedef struct
 {
@@ -12,6 +13,8 @@ typedef struct
 } Borders;
 
 Borders evaluateRectBorder(SDL_Rect *rect);
+
+int isColliding(Borders *a, Borders *b, CollisionType type);
 
 int clamp(const int value, const int min, const int max);
 

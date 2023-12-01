@@ -13,6 +13,12 @@ typedef struct
     int isInCollision;
 } Ball;
 
+typedef enum
+{
+    COLLIDE_LEFT,
+    COLLIDE_RIGHT
+} CollisionType;
+
 // GETTER
 int Ball_getMovingUp(const Ball *ball);
 
