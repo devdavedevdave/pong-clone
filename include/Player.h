@@ -1,9 +1,13 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 typedef struct
 {
-    char *name;
     int points;
 } Player;
 
-void setPoints();
+void incrementPoints(Player *player);
 
 int getPoints();
+
+#endif // PLAYER_H

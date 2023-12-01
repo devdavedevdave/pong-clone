@@ -4,6 +4,7 @@
 #include "Ball.h"
 #include "Paddle.h"
 #include "Utils.h"
+#include "Player.h"
 
 // GETTERS
 int Ball_getMovingUp(const Ball *ball) { return ball->movingUp; }
@@ -61,21 +62,18 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
         // Check collision with left paddle
         if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT))
         {
-            printf("left\n");
             Ball_toggleMovingLeft(ball);
             ball->isInCollision = 1;
         }
         // Check collision with right paddle
         else if (isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
         {
-            printf("right\n");
             Ball_toggleMovingLeft(ball);
             ball->isInCollision = 1;
         }
     }
     else if (!isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) && !isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
     {
-        printf("collision ended\n");
         ball->isInCollision = 0;
     }
 }

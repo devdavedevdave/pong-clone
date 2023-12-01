@@ -3,12 +3,16 @@
 #include "Ball.h"
 #include "Paddle.h"
 #include "Renderer.h"
+#include "Player.h"
 
 int main(int argc, char *argv[])
 {
     Renderer *renderer = initRenderer();
 
     int running = 1;
+
+    Player player1 = {0};
+    Player player2 = {0};
 
     SDL_Rect ball = {365, 365, 20, 20};
     Ball pBall = {&ball, 1, 1, 3, 0};
