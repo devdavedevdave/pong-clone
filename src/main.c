@@ -11,10 +11,13 @@ int main(int argc, char *argv[])
     int running = 1;
 
     SDL_Rect ball = {365, 365, 20, 20};
-    Ball pBall = {&ball, 1, 1, 2};
+    Ball pBall = {&ball, 1, 1, 2, 0};
 
-    SDL_Rect paddle = {20, 315, 20, 100};
-    Paddle pPaddle = {&paddle, 0, 20};
+    SDL_Rect paddleLeft = {20, 315, 20, 100};
+    Paddle pPaddleLeft = {&paddleLeft, 0, 20};
+
+    SDL_Rect paddleRight = {(SCREEN_WIDTH - paddleLeft.w - 20), 315, 20, 100};
+    Paddle pPaddleRight = {&paddleRight, 0, 20};
 
     SDL_Rect middleLine = {365, 0, 10, 5};
 
@@ -40,14 +43,18 @@ int main(int argc, char *argv[])
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer->renderer, 255, 255, 255, 255); // Set draw color to white
 
-        handleCollision(&pBall, &pPaddle);
+        Ball_handleCollision(&pBall, &pPaddleLeft, &pPaddleRight);
         Ball_setDirections(&pBall);
 
-        Paddle_handlePaddlePosition(&pPaddle, state);
-        Paddle_setDirections(&pPaddle);
+        Paddle_handlePaddlePosition(&pPaddleLeft, state);
+        Paddle_setDirections(&pPaddleLeft);
+
+        Paddle_handlePaddlePositionRight(&pPaddleRight, state);
+        Paddle_setDirections(&pPaddleRight);
 
         SDL_RenderFillRect(renderer->renderer, &ball);
-        SDL_RenderFillRect(renderer->renderer, &paddle);
+        SDL_RenderFillRect(renderer->renderer, &paddleLeft);
+        SDL_RenderFillRect(renderer->renderer, &paddleRight);
 
         int drawLine = 1;
         while (drawLine)

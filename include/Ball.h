@@ -10,6 +10,7 @@ typedef struct
     int movingUp;
     int movingLeft;
     int velocity;
+    int isInCollision;
 } Ball;
 
 // GETTER
@@ -30,10 +31,10 @@ void Ball_toggleMovingUp(Ball *ball);
 void Ball_toggleMovingLeft(Ball *ball);
 
 // LOGIC
-void handleWallCollision(Ball *ball);
+void Ball_handleWallCollision(Ball *ball);
 
-void handlePaddleCollision(Ball *ball, Paddle *paddle);
+void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle);
 
-void handleCollision(Ball *ball, Paddle *paddle);
+void Ball_handleCollision(Ball *ball, Paddle *paddleLeft, Paddle *paddleRight);
 
 #endif // BALL_H

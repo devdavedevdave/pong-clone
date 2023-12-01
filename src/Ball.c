@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <stdio.h>
 #include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
@@ -29,46 +30,59 @@ void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
 void Ball_toggleMovingLeft(Ball *ball) { ball->movingLeft = !ball->movingLeft; }
 
 // LOGIC
-void handleWallCollision(Ball *ball)
+void Ball_handleWallCollision(Ball *ball)
 {
     SDL_Rect *rectBall = ball->ball;
 
+    // Check for horizontal collision
     if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
-        // goal(ball);
+        // goal(player);
         Ball_toggleMovingLeft(ball);
-
         rectBall->x = clamp(rectBall->x, 0, SCREEN_WIDTH - rectBall->w);
     }
-    else if (rectBall->y <= 0 || rectBall->y >= SCREEN_BOTTOM - rectBall->h)
+
+    // Check for vertical collision
+    if (rectBall->y <= 0 || rectBall->y >= SCREEN_BOTTOM - rectBall->h)
     {
         Ball_toggleMovingUp(ball);
-
-        rectBall->y = clamp(rectBall->y, 0, SCREEN_HEIGHT - rectBall->y);
+        rectBall->y = clamp(rectBall->y, 0, SCREEN_HEIGHT - rectBall->h);
     }
 }
 
-void handlePaddleCollision(Ball *ball, Paddle *paddle)
+void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle)
 {
-    SDL_Rect *rectBall = ball->ball;
-    const SDL_Rect *rectPaddle = paddle->paddle;
+    Borders ballBorders = evaluateRectBorder(ball->ball);
+    Borders leftPaddleBorders = evaluateRectBorder(leftPaddle->paddle);
+    Borders rightPaddleBorders = evaluateRectBorder(rightPaddle->paddle);
 
-    // TODO: Try to do it with pointer, since it's repeting itself
-    int paddleYUpperLimit = rectPaddle->y;
-    int paddleYLowerLimit = rectPaddle->y + rectPaddle->h;
-    int paddleXLimit = rectPaddle->x >= 370 ? rectPaddle->x + 20 : rectPaddle->x;
-    int ballYUpperLimit = rectBall->y;
-    // int ballYLowerLimit = rectBall->y + rectBall->h; // CHECK: Is this needed?
-    int ballXLimit = rectBall->x >= 370 ? rectBall->x + 20 : rectBall->x;
-
-    if (ballYUpperLimit >= paddleYUpperLimit && ballYUpperLimit <= paddleYLowerLimit && ballXLimit <= paddleXLimit)
+    if (!ball->isInCollision)
     {
-        Ball_toggleMovingLeft(ball);
+        // Managing collision for left paddle
+        if (ballBorders.left <= leftPaddleBorders.right && ballBorders.bottom >= leftPaddleBorders.top && ballBorders.top <= leftPaddleBorders.bottom)
+        {
+            printf("left\n");
+            Ball_toggleMovingLeft(ball);
+            ball->isInCollision = 1;
+        }
+
+        // Managing collision for right paddle
+        if (ballBorders.right >= rightPaddleBorders.left && ballBorders.bottom >= rightPaddleBorders.top && ballBorders.bottom <= rightPaddleBorders.bottom)
+        {
+            printf("right\n");
+            Ball_toggleMovingLeft(ball);
+            ball->isInCollision = 1;
+        }
+    }
+    else if (ballBorders.left > leftPaddleBorders.right || ballBorders.top < leftPaddleBorders.top || ballBorders.bottom > leftPaddleBorders.bottom)
+    {
+        printf("collision\n");
+        ball->isInCollision = 0;
     }
 }
 
-void handleCollision(Ball *ball, Paddle *paddle)
+void Ball_handleCollision(Ball *ball, Paddle *paddleLeft, Paddle *paddleRight)
 {
-    handleWallCollision(ball);
-    // handlePaddleCollision(ball, paddle);
+    Ball_handleWallCollision(ball);
+    Ball_handlePaddleCollision(ball, paddleLeft, paddleRight);
 }

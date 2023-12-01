@@ -25,4 +25,6 @@ void Paddle_setDirections(Paddle *paddle);
 // LOGIC
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state);
 
+void Paddle_handlePaddlePositionRight(Paddle *paddle, const Uint8 *state);
+
 #endif // PADDLE_H
