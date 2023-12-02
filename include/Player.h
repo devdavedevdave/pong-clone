@@ -8,6 +8,6 @@ typedef struct
 
 void incrementPoints(Player *player);
 
-int getPoints();
+int getPoints(Player *player);
 
 #endif // PLAYER_H

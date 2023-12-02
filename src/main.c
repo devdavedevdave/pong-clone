@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         // For example, drawing a white rectangle (like a pong paddleLeft)
         SDL_SetRenderDrawColor(renderer->renderer, 255, 255, 255, 255); // Set draw color to white
 
-        Ball_handleCollision(&pBall, &pPaddleLeft, &pPaddleRight);
+        Ball_handleCollision(&pBall, &pPaddleLeft, &pPaddleRight, &player1, &player2);
         Ball_setDirections(&pBall);
 
         Paddle_handlePaddlePosition(&pPaddleLeft, state);

@@ -31,16 +31,22 @@ void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
 void Ball_toggleMovingLeft(Ball *ball) { ball->movingLeft = !ball->movingLeft; }
 
 // LOGIC
-void Ball_handleWallCollision(Ball *ball)
+void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
 {
     SDL_Rect *rectBall = ball->ball;
 
     // Check for horizontal collision
-    if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
+    if (rectBall->x <= 0)
     {
-        // goal(player);
-        Ball_toggleMovingLeft(ball);
-        rectBall->x = clamp(rectBall->x, 0, SCREEN_WIDTH - rectBall->w);
+        incrementPoints(player2);
+        rectBall->x = 365;
+        rectBall->y = 365;
+    }
+    else if (rectBall->x >= SCREEN_WIDTH - rectBall->w)
+    {
+        incrementPoints(player1);
+        rectBall->x = 365;
+        rectBall->y = 365;
     }
 
     // Check for vertical collision
@@ -78,8 +84,8 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
     }
 }
 
-void Ball_handleCollision(Ball *ball, Paddle *paddleLeft, Paddle *paddleRight)
+void Ball_handleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle, Player *player1, Player *player2)
 {
-    Ball_handleWallCollision(ball);
-    Ball_handlePaddleCollision(ball, paddleLeft, paddleRight);
+    Ball_handleWallCollision(ball, player1, player2);
+    Ball_handlePaddleCollision(ball, leftPaddle, rightPaddle);
 }
