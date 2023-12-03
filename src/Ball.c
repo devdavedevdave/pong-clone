@@ -35,18 +35,22 @@ void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
 {
     SDL_Rect *rectBall = ball->ball;
 
-    // Check for horizontal collision
+    // Check for horizontal collision and score points
     if (rectBall->x <= 0)
     {
         incrementPoints(player2);
-        rectBall->x = 365;
-        rectBall->y = 365;
     }
     else if (rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
         incrementPoints(player1);
-        rectBall->x = 365;
-        rectBall->y = 365;
+    }
+
+    // Check for horizontal collision
+    if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
+    {
+        Ball_toggleMovingLeft(ball);
+        rectBall->x = BALL_SPAWN_X;
+        rectBall->y = BALL_SPAWN_Y;
     }
 
     // Check for vertical collision

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     Player player1 = {0};
     Player player2 = {0};
 
-    SDL_Rect ball = {365, 365, 20, 20};
+    SDL_Rect ball = {370, 370, 20, 20};
     Ball pBall = {&ball, 1, 1, 3, 0};
 
     SDL_Rect paddleLeft = {20, 315, 20, 100};
