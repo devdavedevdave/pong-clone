@@ -11,4 +11,8 @@ typedef struct
 
 Renderer *initRenderer();
 
+void prepareFrameForRendering();
+
+void drawGameElements();
+
 #endif // RENDERER_H

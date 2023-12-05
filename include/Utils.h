@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "Ball.h"
+#include "Renderer.h"
 
 typedef struct
 {
@@ -17,5 +18,7 @@ Borders evaluateRectBorder(SDL_Rect *rect);
 int isColliding(Borders *a, Borders *b, CollisionType type);
 
 int clamp(const int value, const int min, const int max);
+
+void drawMiddleLine(SDL_Rect *middleLine, Renderer *renderer);
 
 #endif // UTILS_H

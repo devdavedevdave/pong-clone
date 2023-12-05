@@ -60,17 +60,7 @@ int main(int argc, char *argv[])
         SDL_RenderFillRect(renderer->renderer, &paddleLeft);
         SDL_RenderFillRect(renderer->renderer, &paddleRight);
 
-        int drawLine = 1;
-        while (drawLine)
-        {
-            SDL_RenderFillRect(renderer->renderer, &middleLine);
-            middleLine.y += 10;
-
-            if (middleLine.y > SCREEN_HEIGHT - middleLine.h)
-            {
-                drawLine = 0;
-            }
-        }
+        drawMiddleLine(&middleLine, renderer);
 
         // Present the renderer
         SDL_RenderPresent(renderer->renderer);
