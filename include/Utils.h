@@ -19,6 +19,4 @@ int isColliding(Borders *a, Borders *b, CollisionType type);
 
 int clamp(const int value, const int min, const int max);
 
-void drawMiddleLine(SDL_Rect *middleLine, Renderer *renderer);
-
 #endif // UTILS_H
