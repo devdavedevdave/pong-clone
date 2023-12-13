@@ -1,163 +1,69 @@
 #include <SDL.h>
 #include <stdio.h>
 #include "Game.h"
+#include "Utils.h"
 
-Game *initGame()
+Game *Game_init()
 {
     Game *game = malloc(sizeof(Game));
     if (game == NULL)
     {
-        fprintf(stderr, "Failed to allocate memory for game structure.\n");
         return NULL;
     }
 
-    game->renderer = initRenderer();
+    game->renderer = Renderer_init();
     if (game->renderer == NULL)
     {
-        fprintf(stderr, "Failed to initialize memory for renderer.\n");
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
 
-    game->player1 = malloc(sizeof(Player));
+    game->player1 = Player_init();
     if (game->player1 == NULL)
     {
-        fprintf(stderr, "Failed to allocate memory for player1.\n");
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
-    *(game->player1) = (Player){0};
 
-    game->player2 = malloc(sizeof(Player));
+    game->player2 = Player_init();
     if (game->player2 == NULL)
     {
-        fprintf(stderr, "Failed to allocate memory for player1.\n");
-        free(game->player1);
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
-    *(game->player2) = (Player){0};
 
-    game->ball = malloc(sizeof(Ball));
-    if (game->ball == NULL)
+    game->ball = Ball_init();
+    if (!game->ball)
     {
-        fprintf(stderr, "Failed to allocate memory for Ball.\n");
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
 
-    game->ball->ball = malloc(sizeof(SDL_Rect));
-    if (game->ball->ball == NULL)
+    game->paddleLeft = Paddle_init(20, 315, 20, 100);
+    if (!game->paddleLeft)
     {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
 
-    *(game->ball->ball) = (SDL_Rect){370, 370, 20, 20};
-    game->ball->movingUp = 1;
-    game->ball->movingLeft = 1;
-    game->ball->velocity = 3;
-    game->ball->isInCollision = 0;
-
-    game->paddleLeft = malloc(sizeof(Paddle));
-    if (game->paddleLeft == NULL)
+    game->paddleRight = Paddle_init((SCREEN_WIDTH - game->paddleLeft->paddle->w - 20), 315, 20, 100);
+    if (!game->paddleRight)
     {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->ball->ball);
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
 
-    game->paddleLeft->paddle = malloc(sizeof(Paddle));
-    if (game->paddleLeft->paddle == NULL)
+    game->middleLine = MiddleLine_init();
+    if (!game->middleLine)
     {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->paddleLeft);
-        free(game->ball->ball);
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
+        Game_destroy(game);
         return NULL;
     }
-
-    *(game->paddleLeft->paddle) = (SDL_Rect){20, 315, 20, 100};
-    game->paddleLeft->movingUp = 0;
-    game->paddleLeft->velocity = 20;
-
-    game->paddleRight = malloc(sizeof(Paddle));
-    if (game->paddleRight == NULL)
-    {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->paddleLeft->paddle);
-        free(game->paddleLeft);
-        free(game->ball->ball);
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
-        return NULL;
-    }
-
-    game->paddleRight->paddle = malloc(sizeof(SDL_Rect));
-    if (game->paddleRight->paddle == NULL)
-    {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->paddleRight);
-        free(game->paddleLeft->paddle);
-        free(game->paddleLeft);
-        free(game->ball->ball);
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
-        return NULL;
-    }
-
-    *(game->paddleRight->paddle) = (SDL_Rect){(SCREEN_WIDTH - game->paddleLeft->paddle->w - 20), 315, 20, 100};
-    game->paddleRight->movingUp = 0;
-    game->paddleRight->velocity = 20;
-
-    game->middleLine = malloc(sizeof(SDL_Rect));
-    if (game->middleLine == NULL)
-    {
-        fprintf(stderr, "Failed to allocate memory for SDL_Rect.\n");
-        free(game->paddleRight->paddle);
-        free(game->paddleRight);
-        free(game->paddleLeft->paddle);
-        free(game->paddleLeft);
-        free(game->ball->ball);
-        free(game->ball);
-        free(game->player2);
-        free(game->player1);
-        free(game->renderer);
-        free(game);
-        return NULL;
-    }
-
-    *(game->middleLine) = (SDL_Rect){365, 0, 10, 5};
 
     return game;
 }
 
-void runGame(Game *game)
+void Game_run(Game *game)
 {
     SDL_Renderer *renderer = game->renderer->renderer;
     Player *player1 = game->player1;
@@ -217,17 +123,14 @@ void runGame(Game *game)
     }
 }
 
-void drawMiddleLine(SDL_Rect *middleLine, SDL_Renderer *renderer)
+void Game_destroy(Game *game)
 {
-    int drawLine = 1;
-    while (drawLine)
-    {
-        SDL_RenderFillRect(renderer, middleLine);
-        middleLine->y += 10;
-
-        if (middleLine->y > SCREEN_HEIGHT - middleLine->h)
-        {
-            drawLine = 0;
-        }
-    }
+    Player_destroy(game->player1);
+    Player_destroy(game->player2);
+    Ball_destroy(game->ball);
+    Paddle_destroy(game->paddleLeft);
+    Paddle_destroy(game->paddleRight);
+    Renderer_destroy(game->renderer);
+    MiddleLine_destroy(game->middleLine);
+    free(game);
 }

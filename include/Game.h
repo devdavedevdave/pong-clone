@@ -25,12 +25,10 @@ typedef struct
     SDL_Rect *middleLine;
 } Game;
 
-Game *initGame();
+Game *Game_init();
 
-void runGame(Game *game);
+void Game_run(Game *game);
 
-void destroyGame(Game *game);
-
-void drawMiddleLine(SDL_Rect *middleLine, SDL_Renderer *renderer);
+void Game_destroy(Game *game);
 
 #endif // GAME_H

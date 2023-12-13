@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Game.h"
 
-Renderer *initRenderer()
+Renderer *Renderer_init()
 {
 
     Renderer *renderer = malloc(sizeof(Renderer));
@@ -19,7 +19,7 @@ Renderer *initRenderer()
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("Unable to initialize SDL: %s\n", SDL_GetError());
-        return renderer;
+        return NULL;
     }
 
     SDL_Window *window = NULL;
@@ -38,7 +38,7 @@ Renderer *initRenderer()
     {
         printf("Could not create window: %s\n", SDL_GetError());
         SDL_Quit();
-        return renderer;
+        return NULL;
     }
 
     renderer->window = window;
@@ -52,9 +52,19 @@ Renderer *initRenderer()
         printf("Could not create renderer: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
         SDL_Quit();
-        return renderer;
+        return NULL;
     }
 
     renderer->renderer = sdlRenderer;
     return renderer;
+}
+
+void Renderer_destroy(Renderer *renderer)
+{
+    if (renderer)
+    {
+        free(renderer->window);
+        free(renderer->renderer);
+        free(renderer);
+    }
 }

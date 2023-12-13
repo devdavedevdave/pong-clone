@@ -7,9 +7,9 @@
 
 int main(int argc, char *argv[])
 {
-    Game *game = initGame();
+    Game *game = Game_init();
 
-    runGame(game);
+    Game_run(game);
 
     // Clean up before exiting
     SDL_Quit();

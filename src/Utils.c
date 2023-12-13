@@ -32,3 +32,40 @@ int clamp(const int value, const int min, const int max)
 
     return IS_SMALLER ? min : (IS_LARGER ? max : value);
 }
+
+void drawMiddleLine(SDL_Rect *middleLine, SDL_Renderer *renderer)
+{
+    int drawLine = 1;
+    while (drawLine)
+    {
+        SDL_RenderFillRect(renderer, middleLine);
+        middleLine->y += 10;
+
+        if (middleLine->y > SCREEN_HEIGHT - middleLine->h)
+        {
+            drawLine = 0;
+        }
+    }
+}
+
+// MEMORY
+SDL_Rect *MiddleLine_init()
+{
+    SDL_Rect *middleLine = malloc(sizeof(SDL_Rect));
+    if (!middleLine)
+    {
+        return NULL;
+    }
+
+    *(middleLine) = (SDL_Rect){365, 0, 10, 5};
+
+    return middleLine;
+}
+
+void MiddleLine_destroy(SDL_Rect *middleLine)
+{
+    if (middleLine)
+    {
+        free(middleLine);
+    }
+}

@@ -6,8 +6,15 @@ typedef struct
     int points;
 } Player;
 
+// GETTERS
+int getPoints(Player *player);
+
+// LOGIC
 void incrementPoints(Player *player);
 
-int getPoints(Player *player);
+// MEMORY
+Player *Player_init();
+
+void Player_destroy(Player *player);
 
 #endif // PLAYER_H

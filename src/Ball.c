@@ -93,3 +93,37 @@ void Ball_handleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle, P
     Ball_handleWallCollision(ball, player1, player2);
     Ball_handlePaddleCollision(ball, leftPaddle, rightPaddle);
 }
+
+// MEMORY
+Ball *Ball_init()
+{
+    Ball *ball = malloc(sizeof(Ball));
+    if (!ball)
+    {
+        return NULL;
+    }
+
+    ball->ball = malloc(sizeof(SDL_Rect));
+    if (!ball->ball)
+    {
+        free(ball);
+        return NULL;
+    }
+
+    *(ball->ball) = (SDL_Rect){370, 370, 20, 20};
+    ball->movingUp = 1;
+    ball->movingLeft = 1;
+    ball->velocity = 3;
+    ball->isInCollision = 0;
+
+    return ball;
+}
+
+void Ball_destroy(Ball *ball)
+{
+    if (ball)
+    {
+        free(ball->ball);
+        free(ball);
+    }
+}

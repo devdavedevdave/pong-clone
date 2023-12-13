@@ -36,3 +36,35 @@ void Paddle_handlePaddlePositionRight(Paddle *paddle, const Uint8 *state)
 
     Paddle_setMovingUp(paddle, moveDirection);
 }
+
+// MEMORY
+Paddle *Paddle_init(int posX, int posY, int width, int height)
+{
+    Paddle *paddle = malloc(sizeof(Paddle));
+    if (!paddle)
+    {
+        return NULL;
+    }
+
+    paddle->paddle = malloc(sizeof(SDL_Rect));
+    if (!paddle->paddle)
+    {
+        free(paddle);
+        return NULL;
+    }
+
+    *(paddle->paddle) = (SDL_Rect){posX, posY, width, height};
+    paddle->movingUp = 0;
+    paddle->velocity = 20;
+
+    return paddle;
+}
+
+void Paddle_destroy(Paddle *paddle)
+{
+    if (paddle)
+    {
+        free(paddle->paddle);
+        free(paddle);
+    }
+}
