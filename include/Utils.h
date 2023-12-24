@@ -23,7 +23,7 @@ int clamp(const int value, const int min, const int max);
 void drawMiddleLine(SDL_Rect *middleLine, SDL_Renderer *renderer);
 
 // MEMORY
-SDL_Rect *MiddleLine_init();
+void *MiddleLine_init();
 
 void MiddleLine_destroy(SDL_Rect *middleLine);
 

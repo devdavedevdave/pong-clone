@@ -3,58 +3,27 @@
 #include "Game.h"
 #include "Utils.h"
 
+int initComponent(void **component, void *(*initFunc)())
+{
+    *component = initFunc();
+    return *component != NULL;
+}
+
 Game *Game_init()
 {
     Game *game = malloc(sizeof(Game));
-    if (game == NULL)
+    if (!game)
     {
         return NULL;
     }
 
-    game->renderer = Renderer_init();
-    if (game->renderer == NULL)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->player1 = Player_init();
-    if (game->player1 == NULL)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->player2 = Player_init();
-    if (game->player2 == NULL)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->ball = Ball_init();
-    if (!game->ball)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->paddleLeft = Paddle_init(20, 315, 20, 100);
-    if (!game->paddleLeft)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->paddleRight = Paddle_init((SCREEN_WIDTH - game->paddleLeft->paddle->w - 20), 315, 20, 100);
-    if (!game->paddleRight)
-    {
-        Game_destroy(game);
-        return NULL;
-    }
-
-    game->middleLine = MiddleLine_init();
-    if (!game->middleLine)
+    if (!initComponent((void **)&game->renderer, Renderer_init) ||
+        !initComponent((void **)&game->player1, Player_init) ||
+        !initComponent((void **)&game->player2, Player_init) ||
+        !initComponent((void **)&game->ball, Ball_init) ||
+        !initComponent((void **)&game->paddleLeft, PaddleLeft_init) ||
+        !initComponent((void **)&game->paddleRight, PaddleRight_init) ||
+        !initComponent((void **)&game->middleLine, MiddleLine_init))
     {
         Game_destroy(game);
         return NULL;

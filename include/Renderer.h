@@ -9,7 +9,7 @@ typedef struct
     SDL_Renderer *renderer;
 } Renderer;
 
-Renderer *Renderer_init();
+void *Renderer_init();
 
 void Renderer_destroy(Renderer *renderer);
 

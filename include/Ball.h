@@ -45,7 +45,7 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
 void Ball_handleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle, Player *player1, Player *player2);
 
 // MEMORY
-Ball *Ball_init();
+void *Ball_init();
 
 void Ball_destroy(Ball *ball);
 

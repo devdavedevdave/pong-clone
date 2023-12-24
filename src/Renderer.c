@@ -2,14 +2,13 @@
 #include "Renderer.h"
 #include "Game.h"
 
-Renderer *Renderer_init()
+void *Renderer_init()
 {
 
     Renderer *renderer = malloc(sizeof(Renderer));
     if (renderer == NULL)
     {
         printf("Failed to allocate memory for Renderer\n");
-        return NULL;
     }
 
     renderer->window = NULL;
@@ -19,7 +18,6 @@ Renderer *Renderer_init()
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("Unable to initialize SDL: %s\n", SDL_GetError());
-        return NULL;
     }
 
     SDL_Window *window = NULL;
@@ -38,7 +36,6 @@ Renderer *Renderer_init()
     {
         printf("Could not create window: %s\n", SDL_GetError());
         SDL_Quit();
-        return NULL;
     }
 
     renderer->window = window;
@@ -52,7 +49,6 @@ Renderer *Renderer_init()
         printf("Could not create renderer: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
         SDL_Quit();
-        return NULL;
     }
 
     renderer->renderer = sdlRenderer;

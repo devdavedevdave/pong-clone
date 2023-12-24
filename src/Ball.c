@@ -95,7 +95,7 @@ void Ball_handleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPaddle, P
 }
 
 // MEMORY
-Ball *Ball_init()
+void *Ball_init()
 {
     Ball *ball = malloc(sizeof(Ball));
     if (!ball)

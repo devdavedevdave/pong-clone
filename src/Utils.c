@@ -49,7 +49,7 @@ void drawMiddleLine(SDL_Rect *middleLine, SDL_Renderer *renderer)
 }
 
 // MEMORY
-SDL_Rect *MiddleLine_init()
+void *MiddleLine_init()
 {
     SDL_Rect *middleLine = malloc(sizeof(SDL_Rect));
     if (!middleLine)

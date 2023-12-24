@@ -13,7 +13,7 @@ int getPoints(Player *player);
 void incrementPoints(Player *player);
 
 // MEMORY
-Player *Player_init();
+void *Player_init();
 
 void Player_destroy(Player *player);
 

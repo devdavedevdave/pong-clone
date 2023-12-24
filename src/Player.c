@@ -8,7 +8,7 @@ int getPoints(Player *player) { return player->points; }
 void incrementPoints(Player *player) { player->points++; }
 
 // MEMORY
-Player *Player_init()
+void *Player_init()
 {
     Player *player = malloc(sizeof(Player));
     if (!player)

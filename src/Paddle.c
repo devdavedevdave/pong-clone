@@ -38,7 +38,7 @@ void Paddle_handlePaddlePositionRight(Paddle *paddle, const Uint8 *state)
 }
 
 // MEMORY
-Paddle *Paddle_init(int posX, int posY, int width, int height)
+void *Paddle_init(int posX, int posY, int width, int height)
 {
     Paddle *paddle = malloc(sizeof(Paddle));
     if (!paddle)
@@ -58,6 +58,16 @@ Paddle *Paddle_init(int posX, int posY, int width, int height)
     paddle->velocity = 20;
 
     return paddle;
+}
+
+void *PaddleLeft_init()
+{
+    return Paddle_init(20, 315, 20, 100);
+}
+
+void *PaddleRight_init()
+{
+    return Paddle_init((760 - 20 - 20), 315, 20, 100);
 }
 
 void Paddle_destroy(Paddle *paddle)
