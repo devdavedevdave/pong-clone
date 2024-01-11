@@ -2,10 +2,10 @@
 #define GAME_H
 
 #include <SDL.h>
-#include "Renderer.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Paddle.h"
+#include "Renderer.h"
 
 #define SCREEN_WIDTH 760
 #define SCREEN_HEIGHT 760
@@ -24,6 +24,16 @@ typedef struct
     Paddle *paddleRight;
     SDL_Rect *middleLine;
 } Game;
+
+// LIFECYCLE
+void Game_clear(Game *game);
+
+void Game_updateState(Game *game);
+
+void Game_renderElements(Game *game);
+
+// MEMORY
+int initComponent(void **component, void *(*initFunc)());
 
 Game *Game_init();
 

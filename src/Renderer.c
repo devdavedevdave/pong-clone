@@ -1,7 +1,6 @@
-#include <SDL.h>
 #include "Renderer.h"
-#include "Game.h"
 
+// MEMORY
 void *Renderer_init()
 {
 
@@ -27,8 +26,8 @@ void *Renderer_init()
         "SDL Pong",             // window title
         SDL_WINDOWPOS_CENTERED, // initial x position
         SDL_WINDOWPOS_CENTERED, // initial y position
-        SCREEN_WIDTH,           // width, in pixels
-        SCREEN_HEIGHT,          // height, in pixels
+        760,                    // width, in pixels // TODO: Import via global config
+        760,                    // height, in pixels
         SDL_WINDOW_SHOWN        // flags - see below
     );
 
