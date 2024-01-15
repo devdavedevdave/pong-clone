@@ -48,6 +48,7 @@ void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
     // Check for horizontal collision
     if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
+	Ball_setVelocity(ball, 4);
       	const int BALL_SPAWN_X = SCREEN_WIDTH / 2 - 10; 
 	const int BALL_SPAWN_Y = (int)((double)rand() / RAND_MAX * SCREEN_HEIGHT);
 
@@ -75,19 +76,14 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
 
     if (!ball->isInCollision)
     {
-        // Check collision with left paddle
-        if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT))
+        // Check collision with paddle
+        if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) || isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
         {
-            Ball_toggleMovingLeft(ball);
+            Ball_setVelocity(ball, Ball_getVelocity(ball) + 1);
+	    Ball_toggleMovingLeft(ball);
             ball->isInCollision = 1;
         }
-        // Check collision with right paddle
-        else if (isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
-        {
-            Ball_toggleMovingLeft(ball);
-            ball->isInCollision = 1;
-        }
-    }
+   }
     else if (!isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) && !isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
     {
         ball->isInCollision = 0;
@@ -119,7 +115,7 @@ void *Ball_init()
     *(ball->ball) = (SDL_Rect){370, 370, 20, 20};
     ball->movingUp = 1;
     ball->movingLeft = 1;
-    ball->velocity = 3;
+    ball->velocity = 4;
     ball->isInCollision = 0;
 
     return ball;
