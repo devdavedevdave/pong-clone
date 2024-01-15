@@ -48,7 +48,13 @@ void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
     // Check for horizontal collision
     if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
-        Ball_toggleMovingLeft(ball);
+      	const int BALL_SPAWN_X = SCREEN_WIDTH / 2 - 10; 
+	const int BALL_SPAWN_Y = (int)((double)rand() / RAND_MAX * SCREEN_HEIGHT);
+
+	if (rand() % 2) {
+		Ball_toggleMovingLeft(ball);
+	}
+ 
         rectBall->x = BALL_SPAWN_X;
         rectBall->y = BALL_SPAWN_Y;
     }

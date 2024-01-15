@@ -2,14 +2,15 @@
 #include "Game.h"
 #include "Utils.h"
 
-// LIFECYCLE
-void Game_clear(Game *game) {
+// LOGIC
+void Game_clear(Game *game)
+{
     SDL_Renderer *renderer = game->renderer->renderer;
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); 
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 }
 
 void Game_updateState(Game *game)
@@ -26,22 +27,22 @@ void Game_updateState(Game *game)
     Paddle_setDirections(game->paddleRight);
 }
 
-void Game_renderElements(Game *game) {
-     SDL_Renderer *renderer = game->renderer->renderer;
-     SDL_Rect *ball = game->ball->ball;
-     SDL_Rect *paddleLeft = game->paddleLeft->paddle;
-     SDL_Rect *paddleRight = game->paddleRight->paddle;
-     SDL_Rect *middleLine = game->middleLine;
+void Game_renderElements(Game *game)
+{
+    SDL_Renderer *renderer = game->renderer->renderer;
+    SDL_Rect *ball = game->ball->ball;
+    SDL_Rect *paddleLeft = game->paddleLeft->paddle;
+    SDL_Rect *paddleRight = game->paddleRight->paddle;
+    SDL_Rect *middleLine = game->middleLine;
 
-     SDL_RenderFillRect(renderer, ball);
-     SDL_RenderFillRect(renderer, paddleLeft);
-     SDL_RenderFillRect(renderer, paddleRight);
-     drawMiddleLine(middleLine, renderer);
+    SDL_RenderFillRect(renderer, ball);
+    SDL_RenderFillRect(renderer, paddleLeft);
+    SDL_RenderFillRect(renderer, paddleRight);
+    drawMiddleLine(middleLine, renderer);
 
-     SDL_RenderPresent(game->renderer->renderer);
+    SDL_RenderPresent(game->renderer->renderer);
 
-     middleLine->y = 0;
-
+    middleLine->y = 0;
 }
 
 // MEMORY
@@ -88,14 +89,14 @@ void Game_run(Game *game)
             }
             // Additional event handling
         }
-            
-	Game_clear(game);
-	
-	Game_updateState(game);
 
-	Game_renderElements(game);
-	
- 	SDL_Delay(16); // Approximately 60 frames per second (1000ms/60 ≈ 16ms per frame)
+        Game_clear(game);
+
+        Game_updateState(game);
+
+        Game_renderElements(game);
+
+        SDL_Delay(16); // Approximately 60 frames per second (1000ms/60 ≈ 16ms per frame)
     }
 }
 
