@@ -18,13 +18,13 @@ void Game_updateState(Game *game)
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
     Ball_handleCollision(game->ball, game->paddleLeft, game->paddleRight, game->player1, game->player2);
-    Ball_setDirections(game->ball);
+    Ball_setMovement(game->ball);
 
     Paddle_handlePaddlePosition(game->paddleLeft, state);
-    Paddle_setDirections(game->paddleLeft);
+    Paddle_setMovement(game->paddleLeft);
 
     Paddle_handlePaddlePositionRight(game->paddleRight, state);
-    Paddle_setDirections(game->paddleRight);
+    Paddle_setMovement(game->paddleRight);
 }
 
 void Game_renderElements(Game *game)

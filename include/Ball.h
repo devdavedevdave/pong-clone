@@ -14,11 +14,13 @@ typedef struct
     int isInCollision;
 } Ball;
 
-typedef enum
+typedef struct
 {
-    COLLIDE_LEFT,
-    COLLIDE_RIGHT
-} CollisionType;
+    int top;
+    int bottom;
+    int left;
+    int right;
+} Borders;
 
 // GETTER
 int Ball_getMovingUp(const Ball *ball);
@@ -27,15 +29,23 @@ int Ball_getMovingLeft(const Ball *ball);
 
 int Ball_getVelocity(const Ball *ball);
 
-// SETTER
-void Ball_setDirections(Ball *ball);
-
+// SETTERS
 void Ball_setVelocity(Ball *ball, int value);
 
-// TOGGLERS
-void Ball_toggleMovingUp(Ball *ball);
+void Ball_setMovingUp(Ball *ball);
 
+void Ball_setMovingDown(Ball *ball);
+
+void Ball_setMovingNeutral(Ball *ball);
+
+void Ball_setMovement(Ball *ball);
+
+void Ball_setDirection(Ball *ball, Borders *ballBorder, Borders *paddleBorder);
+
+// TOGGLERS
 void Ball_toggleMovingLeft(Ball *ball);
+
+void Ball_toggleMovingUp(Ball *ball);
 
 // LOGIC
 void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2);

@@ -16,7 +16,13 @@ int Ball_getVelocity(const Ball *ball) { return ball->velocity; }
 // SETTERS
 void Ball_setVelocity(Ball *ball, int value) { ball->velocity = value; }
 
-void Ball_setDirections(Ball *ball)
+void Ball_setMovingUp(Ball *ball) { ball->movingUp = 1; }
+
+void Ball_setMovingDown(Ball *ball) { ball->movingUp = -1; }
+
+void Ball_setMovingNeutral(Ball *ball) { ball->movingUp = 0; }
+
+void Ball_setMovement(Ball *ball)
 {
     SDL_Rect *rectBall = ball->ball;
     int velocity = Ball_getVelocity(ball);
@@ -25,10 +31,26 @@ void Ball_setDirections(Ball *ball)
     rectBall->x += Ball_getMovingLeft(ball) ? -velocity : velocity;
 }
 
-// TOGGLERS
-void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
+void Ball_setDirection(Ball *ball, Borders *ballBorder, Borders *paddleBorder) {
+    const int paddle_segment = paddleBorder->bottom - paddleBorder->top / 3;	     
+    for (int i = 1; i <= 3; i++) {
+    	if (ballBorder->top < paddleBorder->top + paddle_segment*i) {
+		switch(i) {
+			case 1: Ball_setMovingUp(ball); break;
+			case 2: Ball_setMovingNeutral(ball); break;
+			case 3: Ball_setMovingDown(ball); break;
+		}
+	}
+    }
 
+    // ball_setvelocity(ball, ball_getvelocity(ball) + 1);
+    Ball_toggleMovingLeft(ball);
+}
+
+// TOGGLERS 
 void Ball_toggleMovingLeft(Ball *ball) { ball->movingLeft = !ball->movingLeft; }
+
+void Ball_toggleMovingUp(Ball *ball) { ball->movingUp = !ball->movingUp; }
 
 // LOGIC
 void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
@@ -48,7 +70,7 @@ void Ball_handleWallCollision(Ball *ball, Player *player1, Player *player2)
     // Check for horizontal collision
     if (rectBall->x <= 0 || rectBall->x >= SCREEN_WIDTH - rectBall->w)
     {
-	Ball_setVelocity(ball, 4);
+	Ball_setVelocity(ball, 1);
       	const int BALL_SPAWN_X = SCREEN_WIDTH / 2 - 10; 
 	const int BALL_SPAWN_Y = (int)((double)rand() / RAND_MAX * SCREEN_HEIGHT);
 
@@ -77,13 +99,15 @@ void Ball_handlePaddleCollision(Ball *ball, Paddle *leftPaddle, Paddle *rightPad
     if (!ball->isInCollision)
     {
         // Check collision with paddle
-        if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) || isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
+        if (isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT))
         {
-            Ball_setVelocity(ball, Ball_getVelocity(ball) + 1);
-	    Ball_toggleMovingLeft(ball);
+            Ball_setDirection(ball, &ballBorders, &leftPaddleBorders); 
             ball->isInCollision = 1;
-        }
-   }
+        } else if (isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT)) {
+            Ball_setDirection(ball, &ballBorders, &rightPaddleBorders); 
+            ball->isInCollision = 1;
+	}
+    }
     else if (!isColliding(&ballBorders, &leftPaddleBorders, COLLIDE_LEFT) && !isColliding(&ballBorders, &rightPaddleBorders, COLLIDE_RIGHT))
     {
         ball->isInCollision = 0;
@@ -115,7 +139,7 @@ void *Ball_init()
     *(ball->ball) = (SDL_Rect){370, 370, 20, 20};
     ball->movingUp = 1;
     ball->movingLeft = 1;
-    ball->velocity = 4;
+    ball->velocity = 2;
     ball->isInCollision = 0;
 
     return ball;

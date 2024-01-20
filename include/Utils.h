@@ -2,17 +2,13 @@
 #define UTILS_H
 
 #include <SDL.h>
-#include "Ball.h"
 #include "Renderer.h"
 #include "Game.h"
 
-typedef struct
-{
-    int top;
-    int bottom;
-    int left;
-    int right;
-} Borders;
+typedef enum {
+   COLLIDE_LEFT,
+   COLLIDE_RIGHT
+} CollisionType;
 
 Borders evaluateRectBorder(SDL_Rect *rect);
 

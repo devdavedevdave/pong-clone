@@ -12,7 +12,7 @@ void Paddle_setMovingUp(Paddle *paddle, int value) { paddle->movingUp = value; }
 
 void Paddle_setVelocity(Paddle *paddle, int value) { paddle->velocity = value; }
 
-void Paddle_setDirections(Paddle *paddle)
+void Paddle_setMovement(Paddle *paddle)
 {
     SDL_Rect *rectPaddle = paddle->paddle;
     int moveDirection = Paddle_getMovingUp(paddle);
