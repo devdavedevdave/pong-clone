@@ -6,7 +6,6 @@ This project is a Pong clone, developed as a personal challenge to enhance my pr
 ## Features
 - **OOP-like Structure**: Implements a pseudo-OOP architecture in C for game logic.
 - **Custom Game Loop**: Features a handcrafted game loop essential for real-time game control.
-- **Player vs. AI Gameplay**: Engage in the timeless game against a computer-controlled opponent.
 - **Simple UI**: Utilizes a minimalistic user interface for clear and straightforward gameplay.
 
 ## Getting Started
@@ -35,7 +34,8 @@ Run the game:
 
 
 ## Controls
-- **Player Paddle**: Use the `Up` and `Down` arrow keys to move the paddle.
+- **Player1**: Use the `W` and `S` arrow keys to move the paddle.
+- **Player1**: Use the `Up` and `Down` arrow keys to move the paddle.
 - **Pause/Resume Game**: Press `P` to pause and resume the game.
 
 ## Contributing
