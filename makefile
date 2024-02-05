@@ -5,7 +5,7 @@ CC=gcc
 CFLAGS=-Wall -g $(shell sdl2-config --cflags)
 
 # Define any libraries to link into the executable:
-LIBS=$(shell sdl2-config --libs)
+LIBS=$(shell sdl2-config --libs) -lSDL2_ttf
 
 # Define any directories containing header files other than /usr/include
 INCLUDES=-Iinclude

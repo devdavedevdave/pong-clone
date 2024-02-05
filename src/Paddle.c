@@ -30,7 +30,7 @@ void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state)
     Paddle_setMovingUp(paddle, moveDirection);
 }
 
-void Paddle_handlePaddlePositionRight(Paddle *paddle, const Uint8 *state)
+void Paddle_handlePaddlePositionEnemy(Paddle *paddle, const Uint8 *state)
 {
     int moveDirection = (state[SDL_SCANCODE_W] ? -1 : (state[SDL_SCANCODE_S] ? 1 : 0));
 

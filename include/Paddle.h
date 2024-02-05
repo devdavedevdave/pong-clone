@@ -25,7 +25,7 @@ void Paddle_setMovement(Paddle *paddle);
 // LOGIC
 void Paddle_handlePaddlePosition(Paddle *paddle, const Uint8 *state);
 
-void Paddle_handlePaddlePositionRight(Paddle *paddle, const Uint8 *state);
+void Paddle_handlePaddlePositionEnemy(Paddle *paddle, const Uint8 *state);
 
 // MEMORY
 void *Paddle_init(int posX, int posY, int width, int height);
