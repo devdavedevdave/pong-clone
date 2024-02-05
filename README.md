@@ -36,7 +36,6 @@ Run the game:
 ## Controls
 - **Player1**: Use the `W` and `S` arrow keys to move the paddle.
 - **Player1**: Use the `Up` and `Down` arrow keys to move the paddle.
-- **Pause/Resume Game**: Press `P` to pause and resume the game.
 
 ## Contributing
 Contributions are welcome! Please feel free to fork the repository, make changes, and submit pull requests. For major changes or enhancements, please open an issue first to discuss what you would like to change.
